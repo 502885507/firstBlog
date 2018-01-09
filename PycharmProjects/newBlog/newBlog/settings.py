@@ -26,7 +26,7 @@ SECRET_KEY = 'or36^0d8x$t8)avssj4sryf)bng-sxbdtl)!7=w!r(zmk3p8vf'
 DEBUG = False
 
 # 允许访问域名的列表， 127.0.0.1 和localhost是本地访问域名
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.wecblog.site']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '39.106.199.255']
 
 
 # Application definition
