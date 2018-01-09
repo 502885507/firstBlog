@@ -23,7 +23,7 @@ class Category(models.Model):
 
 class Tag(models.Model):
     """
-    标签 tag 继承model.Model类
+    标签 tag    继承model.Model类
     """
     mame = models.CharField(max_length=100)
     def __str__(self):
