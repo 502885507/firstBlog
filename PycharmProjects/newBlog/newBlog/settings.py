@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'or36^0d8x$t8)avssj4sryf)bng-sxbdtl)!7=w!r(zmk3p8vf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # 允许访问域名的列表， 127.0.0.1 和localhost是本地访问域名
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '39.106.199.255']
