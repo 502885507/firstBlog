@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.six import python_2_unicode_compatible
-import markdown
+from markdown import markdown
 from django.utils.html import strip_tags
 
 class Category(models.Model):
@@ -75,7 +75,7 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.excerpt:
             # 实例化一个markdown类 用于渲染body文本
-            md = markdown.Markdown(extensions=['markdown.extensions.extra', 'markdown.extensions.condehilite'])
+            md = markdown(['markdown.extensions.extra', 'markdown.extensions.condehilite'])
             # 现将markdown文本渲染成html文本
             # strip_tags 去掉html 文本的全部Html标签
             self.excerpt = strip_tags(md.convert(self.body))[:54]
