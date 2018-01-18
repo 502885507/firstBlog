@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.six import python_2_unicode_compatible
-from markdown import markdown
+from markdown import *
 from django.utils.html import strip_tags
 
 class Category(models.Model):
@@ -75,15 +75,16 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.excerpt:
             # 实例化一个markdown类 用于渲染body文本
-            md = markdown('markdown.extensions.extra, markdown.extensions.condehilite')
+            md = Markdown(extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+            ])
             # 现将markdown文本渲染成html文本
             # strip_tags 去掉html 文本的全部Html标签
+
             self.excerpt = strip_tags(md.convert(self.body))[:54]
             # 调用父类额方法将数据保存在数据库中
             super(Post, self).save(*args, **kwargs)
-
-
-
 
 # 评论数
 
