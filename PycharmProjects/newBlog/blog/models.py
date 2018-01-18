@@ -53,6 +53,10 @@ class Post(models.Model):
     # django.contrib.auth是django 内置的应用，处理注册 登录的流程User 是 Django 为我们已经写好的用户模型。
     # 文章和User关联起来
     author = models.ForeignKey(User, on_delete=True)
+    # 评论数 默认为0
+    # PositiveIntegerField只允许为正整数或者0
+    views = models.PositiveIntegerField(default=0)
+
 
     def __str__(self):
         return self.title
@@ -60,6 +64,13 @@ class Post(models.Model):
     # 自定义get_absolte方法
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'pk': self.pk})
+    def increase_views(self):
+        # 每一个阅读的人
+        self.views += 1
+        self.save(update_fields=['views'])
+
+# 评论数
+
 
 
 
