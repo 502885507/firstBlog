@@ -5,6 +5,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.six import python_2_unicode_compatible
+import markdown
+from  django.utils.html import strip_tags
 
 class Category(models.Model):
     """
@@ -43,7 +45,7 @@ class Post(models.Model):
 
     # 文章摘要，可以没有问斩个摘要
     # 指定chartFiled 的blank = false 就可以允许空值了
-    excerpt = models.CharField(max_length=200, blank=False)
+    excerpt = models.CharField(max_length=200, blank=True)
     #一对多的分类要使用Foreignkey() 一个分类下右多篇文章 ，而一篇文章只能对应一个分类
     category = models.ForeignKey(Category, on_delete=True)
     # 多对多要用ManyToMany（） 一个文章可以多个标签，一个标签也可以多个文章
@@ -68,6 +70,20 @@ class Post(models.Model):
         # 每一个阅读的人
         self.views += 1
         self.save(update_fields=['views'])
+
+    # 重写save方法
+    def save(self, *args, **kwargs):
+        if not self.excerpt:
+            # 实例化一个markdown类 用于渲染body文本
+            md = markdown.Markdown(extensions=['markdown.extensions.extra', 'markdown.extensions.condehilite'])
+            # 现将markdown文本渲染成html文本
+            # strip_tags 去掉html 文本的全部Html标签
+            self.excerpt = strip_tags(md.convert(self.body))[:54]
+            # 调用父类额方法将数据保存在数据库中
+            super(Post, self).save(*args, **kwargs)
+
+
+
 
 # 评论数
 
