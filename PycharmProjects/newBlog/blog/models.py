@@ -43,6 +43,7 @@ class Post(models.Model):
     creat_time = models.DateTimeField()
     modifi_time = models.DateTimeField()
 
+
     # 文章摘要，可以没有问斩个摘要
     # 指定chartFiled 的blank = false 就可以允许空值了
     excerpt = models.CharField(max_length=200, blank=True)
