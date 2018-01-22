@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, render
 from comments.form import CommentForm
-from .models import Post,Category
+from .models import Post,Category,Tag
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 import markdown
@@ -61,6 +61,7 @@ class IndexView(ListView):
     context_object_name = 'post_list'
     # 指定多少文章一页
     paginate_by = 2
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         """
@@ -229,6 +230,17 @@ class PostDetailView(DetailView):
             'comment_list': comment_list
         })
         return context
+
+
+class TagView(ListView):
+    model = Tag
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+
+    def get_queryset(self):
+        tag = get_object_or_404(self, pk=self.kwargs.get('pk'))
+        return super(TagView, self).get_queryset().filter(tags = tag)
+
 
 
 
